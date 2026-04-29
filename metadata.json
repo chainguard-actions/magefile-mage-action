@@ -1,5 +1,6 @@
 {
   "owner": "magefile",
   "name": "mage-action",
-  "visibility": ""
+  "visibility": "internal",
+  "description": "GitHub Action for Mage"
 }

@@ -1,5 +1,7 @@
 # magefile/mage-action
 
+GitHub Action for Mage
+
 Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/magefile/mage-action](https://github.com/magefile/mage-action).
 
 ## Versions
