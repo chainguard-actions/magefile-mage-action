@@ -1,6 +1,12 @@
 # magefile/mage-action
 
-Hardened GitHub Action by [Chainguard](https://www.chainguard.dev).
+Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/magefile/mage-action](https://github.com/magefile/mage-action).
+
+## Versions
+
+| Version | Tag | Upstream commit |
+|---------|-----|-----------------|
+| v4.0.0 | [`v4.0.0`](https://github.com/chainguard-actions/mage-action/tree/v4.0.0) | — |
 
 ## Privacy
 
