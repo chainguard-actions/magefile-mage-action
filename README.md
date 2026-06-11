@@ -1,6 +1,6 @@
 # magefile/mage-action
 
-GitHub Action for Mage
+GitHub Action for Mage, a Make/rake-like build tool using Go
 
 Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/magefile/mage-action](https://github.com/magefile/mage-action).
 
