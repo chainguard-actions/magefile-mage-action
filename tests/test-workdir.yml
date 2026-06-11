@@ -1,0 +1,18 @@
+name: Test workdir input
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          version: latest
+          workdir: actions/hardened/magefile--mage-action/v4.0.0/tests/fixtures/magefile
+          args: Hello
+          cache-binary: 'false'
+      - name: Assert mage ran in workdir successfully
+        run: |
+          echo "PASS: mage ran in specified workdir without error"
