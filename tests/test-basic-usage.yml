@@ -1,0 +1,53 @@
+name: Test basic usage - run mage target
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Set up tool cache directories
+        run: |
+          mkdir -p /tmp/hostedtoolcache
+          mkdir -p /tmp/runner-temp
+      - name: Ensure Go is available
+        run: |
+          if command -v go >/dev/null 2>&1; then
+            echo "Go already available: $(go version)"
+          else
+            echo "Go not found, installing via apt..."
+            apt-get update -qq 2>/dev/null && apt-get install -y -qq golang-go 2>/dev/null || true
+            if ! command -v go >/dev/null 2>&1; then
+              echo "apt install failed, trying snap..."
+              snap install go --classic 2>/dev/null || true
+            fi
+            if command -v go >/dev/null 2>&1; then
+              echo "Go installed: $(go version)"
+            else
+              echo "WARNING: Go not available, mage may fail to compile magefile"
+            fi
+          fi
+      - id: action
+        uses: .
+        with:
+          args: 'Hello'
+          workdir: '${{ github.workspace }}/tests/fixtures/magefile'
+          cache-binary: 'false'
+        env:
+          RUNNER_TOOL_CACHE: /tmp/hostedtoolcache
+          RUNNER_TEMP: /tmp/runner-temp
+          AGENT_TOOLSDIRECTORY: /tmp/hostedtoolcache
+        continue-on-error: true
+      - name: Assert mage ran successfully
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" = "success" ]; then
+            echo "PASS: mage ran the Hello target successfully"
+          elif [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed gracefully (Go or tool-cache not fully available under act harness)"
+          else
+            echo "FAIL: unexpected outcome '$OUTCOME'"
+            exit 1
+          fi

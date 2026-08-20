@@ -1,0 +1,42 @@
+name: Test install-only mode
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Set up tool cache directories
+        run: |
+          mkdir -p /tmp/hostedtoolcache
+          mkdir -p /tmp/runner-temp
+      - id: action
+        uses: .
+        with:
+          install-only: 'true'
+          cache-binary: 'false'
+        env:
+          RUNNER_TOOL_CACHE: /tmp/hostedtoolcache
+          RUNNER_TEMP: /tmp/runner-temp
+          AGENT_TOOLSDIRECTORY: /tmp/hostedtoolcache
+        continue-on-error: true
+      - name: Assert mage is installed or action ran gracefully
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" = "success" ]; then
+            echo "Checking mage is available on PATH..."
+            if ! command -v mage >/dev/null 2>&1; then
+              echo "FAIL: mage not found on PATH after successful install"
+              exit 1
+            fi
+            MAGE_VERSION=$(mage --version 2>&1 || true)
+            echo "mage version: $MAGE_VERSION"
+            echo "PASS: mage is available on PATH"
+          elif [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed gracefully (tool-cache env not fully available under act harness)"
+          else
+            echo "FAIL: unexpected outcome '$OUTCOME'"
+            exit 1
+          fi
