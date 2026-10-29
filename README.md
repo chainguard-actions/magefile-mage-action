@@ -6,9 +6,9 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 ## Versions
 
-| Version | Tag | Upstream commit |
-|---------|-----|-----------------|
-| v4.0.0 | [`v4.0.0`](https://github.com/chainguard-actions/magefile-mage-action/tree/v4.0.0) | [`a662bd8`](https://github.com/magefile/mage-action/commit/a662bd8c29d8106879588cfff83b2faf6e6f59db) |
+| Version | Tag | Upstream commit | Hardening report |
+|---------|-----|-----------------|------------------|
+| v4.0.0 | [`v4.0.0`](https://github.com/chainguard-actions/magefile-mage-action/tree/v4.0.0) | [`a662bd8`](https://github.com/magefile/mage-action/commit/a662bd8c29d8106879588cfff83b2faf6e6f59db) | [`HARDENING.md`](https://github.com/chainguard-actions/magefile-mage-action/blob/v4.0.0/HARDENING.md) |
 
 ## Privacy
 
